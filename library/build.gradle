@@ -10,6 +10,7 @@ group = 'com.github.kakavip'
 version = "1.0.0"
 project.archivesBaseName = "secure-preferences"
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
