@@ -5,6 +5,8 @@
 
 * Conceal -> https://github.com/facebook/conceal
 
+![](https://i.gyazo.com/e7dbb57aea8fdc77eafd767e25bb2cb2.png)
+
 ##### Why use ?
 - Most of security for data ( as user token, some api key ...)
 - Less SharedPreferences file size
