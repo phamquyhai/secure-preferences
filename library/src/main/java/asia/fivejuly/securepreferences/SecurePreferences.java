@@ -16,6 +16,7 @@ import com.facebook.crypto.Entity;
 import com.facebook.crypto.exception.CryptoInitializationException;
 import com.facebook.crypto.exception.KeyChainException;
 import com.facebook.crypto.keychain.KeyChain;
+import com.facebook.soloader.SoLoader;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -33,6 +34,7 @@ public class SecurePreferences implements SharedPreferences {
 
     private static final String TAG = SecurePreferences.class.getName();
     private static boolean isDebug = false;
+    private static boolean isInit = false;
 
     private SharedPreferences sharedPreferences;
     private Entity entity;
@@ -68,6 +70,9 @@ public class SecurePreferences implements SharedPreferences {
         }
 
         public SharedPreferences build() {
+            if(!isInit) {
+                Log.w(TAG, "You need call 'SecurePreferences.init()' in onCreate() from your application class.");
+            }
             KeyChain keyChain = new SharedPrefsBackedKeyChain(context, CryptoConfig.KEY_256);
             Entity entity = Entity.create(
                     TextUtils.isEmpty(password) ? getClass().getPackage().getName() : password
@@ -88,6 +93,11 @@ public class SecurePreferences implements SharedPreferences {
         this.entity = entity;
         this.sharedPreferences = getSharedPreferenceFile(context, sharedPrefFilename);
         this.crypto = AndroidConceal.get().createCrypto256Bits(keyChain);
+    }
+
+    public static void init(Context pContext) {
+        SoLoader.init(pContext, false);
+        isInit = true;
     }
 
     private String encrypt(final String plainText) {

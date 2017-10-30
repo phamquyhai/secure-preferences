@@ -14,6 +14,8 @@
 - Faster encrypt with the Conceal
 - `256-bit` encryption
 
+### We're supported Conceal 2.x (faster than old version)
+
 Download
 -------
 #####Gradle:
@@ -32,14 +34,26 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-        compile 'com.github.KaKaVip:secure-preferences:1.0.0'
-        compile 'com.facebook.conceal:conceal:1.1.3@aar'
+        compile 'com.github.KaKaVip:secure-preferences:1.1.0'
+        compile 'com.facebook.conceal:conceal:2.0.1@aa'
 }
 ```
 
 
 How to use
 -------
+In Application: `Data return empty if you don't setting this`
+
+Since v2.0.+ (2017-06-27) you will need to initialize the native library loader. This step is needed because the library loader uses the context. The highly suggested way to do it is in the application class onCreate method like this:
+
+```java
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        SecurePreferences.init(this); 
+    }
+```
+When used: 
 ```java
 SharedPreferences prefs = new SecurePreferences.Builder(MainActivity.this)
                 .password("password")
@@ -54,7 +68,7 @@ String token = prefs.getString("token","if_not_found");
 ```
 
 
-See `settings.xml` file
+See `settings.xml` file:
 ```XML
 
 // SharedPreferences default
@@ -69,7 +83,7 @@ See `settings.xml` file
 License
 -------
 
-    Copyright 2016 KaKaVip, Inc.
+    Copyright 2016 Pham Quy Hai, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
